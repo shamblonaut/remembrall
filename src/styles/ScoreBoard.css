@@ -1,0 +1,26 @@
+.score-board {
+  font-family: "Lumos", serif;
+  color: #ffd700;
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score-board > div {
+  display: flex;
+  align-items: center;
+}
+
+.score-board .label {
+  margin-right: 0.5em;
+}
+
+.score {
+  font-size: 2.5rem;
+}
+
+.high-score {
+  font-size: 1.25rem;
+}
