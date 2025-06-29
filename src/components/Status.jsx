@@ -1,6 +1,6 @@
-import "../styles/ScoreBoard.css";
+import "../styles/Status.css";
 
-export default function ScoreBoard({ score, highScore }) {
+export default function Status({ score, highScore }) {
   return (
     <div className="score-board">
       <div className="score">

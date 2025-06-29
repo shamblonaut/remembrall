@@ -1,56 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import "./App.css";
 
+import Board from "./components/Board.jsx";
+import Status from "./components/Status.jsx";
+import { GameState, shuffleArray } from "./utils.js";
+
 import characters from "./assets/characters.json";
 
-import Cards from "./components/Cards.jsx";
-import ScoreBoard from "./components/ScoreBoard.jsx";
-import { useEffect } from "react";
-
-function shuffleArray(array) {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-}
-
 function App() {
-  const [arrangedCharacters, setArrangedCharacters] = useState([]);
-  const [isGameOver, setIsGameOver] = useState(false);
-
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
-
-  useEffect(() => {
-    const charactersWithImages = characters.filter(
-      (character) => character.image,
-    );
-    setArrangedCharacters(shuffleArray(charactersWithImages));
-  }, []);
 
   const incrementScore = () => {
     const newScore = score + 1;
     setScore(newScore);
 
-    if (newScore === characters.length) {
-      setHighScore(newScore);
-
-      setIsGameOver(true);
-      alert("You won!");
-    }
+    return newScore;
   };
 
-  const handleGameOver = () => {
-    if (highScore < score) {
-      setHighScore(score);
+  const handleGameOver = (gameState, newScore = undefined) => {
+    const finalScore = newScore === undefined ? score : newScore;
+    if (highScore < finalScore) {
+      setHighScore(finalScore);
     }
-    setScore(0);
 
-    setIsGameOver(true);
-    alert("Game Over!");
+    if (gameState === GameState.WON) {
+      setTimeout(() => {
+        alert("You won!");
+      }, 1000);
+    } else if (gameState === GameState.LOST) {
+      setTimeout(() => {
+        alert(`You lost! You got ${finalScore} points`);
+      }, 1000);
+    }
+
+    setTimeout(() => {
+      setScore(0);
+    }, 1000);
   };
 
   return (
@@ -64,14 +51,11 @@ function App() {
         <div className="band bottom"></div>
       </header>
       <aside>
-        <ScoreBoard score={score} highScore={highScore} />
+        <Status score={score} highScore={highScore} />
       </aside>
       <main>
-        <Cards
-          cards={arrangedCharacters}
-          shuffleCards={() =>
-            setArrangedCharacters(shuffleArray(arrangedCharacters))
-          }
+        <Board
+          characters={shuffleArray(characters).slice(0, 4)}
           incrementScore={incrementScore}
           handleGameOver={handleGameOver}
         />

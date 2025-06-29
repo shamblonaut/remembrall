@@ -1,11 +1,3 @@
-.cards {
-  margin: 8px;
-
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
 .card {
   border: none;
   background: transparent;
@@ -24,7 +16,7 @@
   transform-style: preserve-3d;
 }
 
-.card.hide .flip-container {
+.card.flipped .flip-container {
   transform: rotateY(180deg);
 }
 
