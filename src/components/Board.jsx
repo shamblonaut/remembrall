@@ -3,9 +3,14 @@ import { useEffect, useState } from "react";
 import "../styles/Board.css";
 
 import Card from "./Card.jsx";
-import { GameState, shuffleArray } from "../utils.js";
+import { shuffleArray } from "../utils.js";
 
-export default function Board({ characters, incrementScore, handleGameOver }) {
+export default function Board({
+  characters,
+  incrementScore,
+  handleRoundVictory,
+  handleGameOver,
+}) {
   const [shuffledCharacters, setShuffledCharacters] = useState(
     shuffleArray(characters),
   );
@@ -14,11 +19,11 @@ export default function Board({ characters, incrementScore, handleGameOver }) {
 
   const handleCardClick = (characterID) => {
     if (clickedCharacters.includes(characterID)) {
-      handleGameOver(GameState.LOST);
+      handleGameOver();
       setClickedCharacters([]);
     } else if (clickedCharacters.length === characters.length - 1) {
-      const newScore = incrementScore();
-      handleGameOver(GameState.WON, newScore);
+      incrementScore();
+      handleRoundVictory();
       setClickedCharacters([]);
     } else {
       incrementScore();

@@ -1,8 +1,19 @@
-export const GameState = Object.freeze({
-  ONGOING: 0,
-  WON: 1,
-  LOST: 2,
+export const Difficulty = Object.freeze({
+  EASY: "Easy",
+  NORMAL: "Normal",
+  HARD: "Hard",
 });
+
+export function getDifficultyCardCount(difficulty) {
+  switch (difficulty) {
+    case Difficulty.EASY:
+      return 4;
+    case Difficulty.NORMAL:
+      return 8;
+    case Difficulty.HARD:
+      return 16;
+  }
+}
 
 export function shuffleArray(array) {
   const shuffled = [...array];

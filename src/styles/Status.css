@@ -1,4 +1,4 @@
-.score-board {
+.status {
   font-family: "Lumos", serif;
   color: #ffd700;
   padding: 16px;
@@ -8,12 +8,12 @@
   align-items: center;
 }
 
-.score-board > div {
+.status > div {
   display: flex;
   align-items: center;
 }
 
-.score-board .label {
+.status .label {
   margin-right: 0.5em;
 }
 
