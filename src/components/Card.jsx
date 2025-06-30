@@ -3,7 +3,7 @@ import "../styles/Card.css";
 export default function Card({ character, flipped, handleCardClick }) {
   return (
     <button type="button" className={`card ${flipped ? "flipped" : ""}`}>
-      <div className="flip-container">
+      <div className="card-content">
         <div
           className="card-front"
           onClick={() => handleCardClick(character.id)}
