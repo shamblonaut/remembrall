@@ -58,3 +58,7 @@ header img {
 .band.bottom {
   margin-bottom: 8px;
 }
+
+aside {
+  width: 100%;
+}

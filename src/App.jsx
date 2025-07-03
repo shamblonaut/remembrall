@@ -10,7 +10,7 @@ import characters from "./assets/characters.json";
 
 function App() {
   const [round, setRound] = useState(1);
-  const [difficulty, setDifficulty] = useState(Difficulty.EASY);
+  const [difficulty, setDifficulty] = useState(Difficulty.NORMAL);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
 
@@ -32,7 +32,7 @@ function App() {
     }, 1000);
   };
 
-  const handleGameOver = (gameState) => {
+  const handleGameOver = () => {
     if (highScore < score) {
       setHighScore(score);
     }
@@ -61,7 +61,7 @@ function App() {
         <div className="band bottom"></div>
       </header>
       <aside>
-        <Status round={round} score={score} highScore={highScore} />
+        <Status score={score} round={round} difficulty={difficulty} />
       </aside>
       <main>
         <Board
