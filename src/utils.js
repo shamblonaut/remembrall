@@ -15,6 +15,22 @@ export const InfoMode = Object.freeze({
   LOST: 2,
 });
 
+export async function fetchCharacterList() {
+  const requestURL = "https://hp-api.onrender.com/api/characters";
+
+  const characters = [];
+
+  await fetch(requestURL, { mode: "cors" })
+    .then((response) => {
+      return response.json();
+    })
+    .then((response) => {
+      characters.push(...response);
+    });
+
+  return characters.filter((character) => character.image);
+}
+
 export function getDifficultyCardCount(difficulty) {
   switch (difficulty) {
     case Difficulty.EASY:

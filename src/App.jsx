@@ -7,7 +7,6 @@ import Status from "./components/Status.jsx";
 import Info from "./components/Info.jsx";
 import MainMenu from "./components/MainMenu.jsx";
 
-import characters from "./assets/characters.json";
 import {
   Difficulty,
   shuffleArray,
@@ -15,6 +14,7 @@ import {
   InfoMode,
   AppState,
   getUniqueBoardKey,
+  fetchCharacterList,
 } from "./utils.js";
 
 function App() {
@@ -23,9 +23,8 @@ function App() {
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
 
-  const [deltaCharacters, setDeltaCharacters] = useState(() =>
-    shuffleArray(characters).slice(0, getDifficultyCardCount(difficulty)),
-  );
+  const [characters, setCharacters] = useState([]);
+  const [deltaCharacters, setDeltaCharacters] = useState([]);
   const [deckReset, setDeckReset] = useState(false);
 
   const [appState, setAppState] = useState(AppState.MENU);
@@ -50,6 +49,12 @@ function App() {
 
     setInfoMode(InfoMode.LOST);
   };
+
+  useEffect(() => {
+    (async () => {
+      setCharacters(await fetchCharacterList());
+    })();
+  }, []);
 
   useEffect(() => {
     if (!infoResponded) return;
@@ -79,14 +84,13 @@ function App() {
     if (deckReset) {
       setDeckReset(false);
     }
-  }, [difficulty, round, deckReset]);
+  }, [characters, difficulty, round, deckReset]);
 
   return (
     <>
       <header>
         <div className="band top"></div>
         <div className="content">
-          <img src="/remembrall.png" alt="Remembrall" />
           <h1>Remembrall</h1>
         </div>
         <div className="band bottom"></div>
