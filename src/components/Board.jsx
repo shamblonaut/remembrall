@@ -28,13 +28,14 @@ export default function Board({
     } else {
       incrementScore();
       setClickedCharacters([...clickedCharacters, characterID]);
+
+      setTimeout(() => {
+        setShuffledCharacters(shuffleArray(shuffledCharacters));
+        setFlipped(false);
+      }, 1000);
     }
 
     setFlipped(true);
-    setTimeout(() => {
-      setShuffledCharacters(shuffleArray(shuffledCharacters));
-      setFlipped(false);
-    }, 1000);
   };
 
   useEffect(() => {

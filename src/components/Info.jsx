@@ -3,7 +3,7 @@ import { AppState, InfoMode } from "../utils";
 
 export default function Info({
   mode,
-  setMode,
+  setResponded,
   round,
   score,
   highScore,
@@ -15,14 +15,11 @@ export default function Info({
         <div className="info">
           {mode === InfoMode.WON && (
             <>
-              <div className="title">Round {round - 1} complete!</div>
-              <div className="message">Round {round}</div>
+              <div className="title">Round {round} complete!</div>
+              <div className="message">Ready for Round {round + 1}?</div>
               <div className="actions">
                 <div className="action-container">
-                  <button
-                    type="button"
-                    onClick={() => setMode(InfoMode.HIDDEN)}
-                  >
+                  <button type="button" onClick={() => setResponded(true)}>
                     Continue
                   </button>
                 </div>
@@ -38,7 +35,9 @@ export default function Info({
               </div>
               <div className="high-score">
                 <p>
-                  {highScore === score ? "New" : ""} High Score : {highScore}
+                  {highScore === score
+                    ? "New High Score!"
+                    : `High Score: ${highScore}`}
                 </p>
               </div>
               <div className="actions">
@@ -46,7 +45,7 @@ export default function Info({
                   <button
                     type="button"
                     onClick={() => {
-                      setMode(InfoMode.HIDDEN);
+                      setResponded(true);
                       setAppState(AppState.MENU);
                     }}
                   >
@@ -54,10 +53,7 @@ export default function Info({
                   </button>
                 </div>
                 <div className="action-container">
-                  <button
-                    type="button"
-                    onClick={() => setMode(InfoMode.HIDDEN)}
-                  >
+                  <button type="button" onClick={() => setResponded(true)}>
                     Restart
                   </button>
                 </div>

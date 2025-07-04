@@ -14,7 +14,7 @@ export default function MainMenu({
     <div className="main-menu">
       <p className="instructions">Don't click on a card twice!</p>
       <p className="high-score">High Score: {highScore}</p>
-      <p className="difficulty">
+      <div className="difficulty">
         <label htmlFor="difficulty">
           <p>Difficulty: </p>
           <div className="action-container">
@@ -36,7 +36,7 @@ export default function MainMenu({
             </span>
           </div>
         </label>
-      </p>
+      </div>
       <div className="logo">
         <img src="/remembrall.png" alt="Remembrall" />
       </div>

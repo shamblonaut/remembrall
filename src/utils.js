@@ -26,6 +26,14 @@ export function getDifficultyCardCount(difficulty) {
   }
 }
 
+export function getUniqueBoardKey(characters) {
+  let key = "";
+  for (const character of characters) {
+    key += character.id;
+  }
+  return key;
+}
+
 export function shuffleArray(array) {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {

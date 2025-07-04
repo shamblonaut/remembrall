@@ -14,6 +14,7 @@ import {
   getDifficultyCardCount,
   InfoMode,
   AppState,
+  getUniqueBoardKey,
 } from "./utils.js";
 
 function App() {
@@ -25,9 +26,11 @@ function App() {
   const [deltaCharacters, setDeltaCharacters] = useState(() =>
     shuffleArray(characters).slice(0, getDifficultyCardCount(difficulty)),
   );
+  const [deckReset, setDeckReset] = useState(false);
 
   const [appState, setAppState] = useState(AppState.MENU);
   const [infoMode, setInfoMode] = useState(InfoMode.HIDDEN);
+  const [infoResponded, setInfoResponded] = useState(false);
 
   const incrementScore = () => {
     const newScore = score + 1;
@@ -37,10 +40,7 @@ function App() {
   };
 
   const handleRoundVictory = () => {
-    setTimeout(() => {
-      setInfoMode(InfoMode.WON);
-      setRound(round + 1);
-    }, 1000);
+    setInfoMode(InfoMode.WON);
   };
 
   const handleGameOver = () => {
@@ -49,17 +49,37 @@ function App() {
     }
 
     setInfoMode(InfoMode.LOST);
-    setTimeout(() => {
-      setRound(1);
-      setScore(0);
-    }, 1000);
   };
 
   useEffect(() => {
-    setDeltaCharacters(
-      shuffleArray(characters).slice(0, getDifficultyCardCount(difficulty)),
+    if (!infoResponded) return;
+
+    switch (infoMode) {
+      case InfoMode.WON:
+        setRound((round) => round + 1);
+        break;
+      case InfoMode.LOST:
+        setRound(1);
+        setScore(0);
+        setDeckReset(true);
+        break;
+    }
+
+    setInfoResponded(false);
+    setInfoMode(InfoMode.HIDDEN);
+  }, [infoResponded, infoMode]);
+
+  useEffect(() => {
+    const newDeck = shuffleArray(characters).slice(
+      0,
+      getDifficultyCardCount(difficulty),
     );
-  }, [difficulty, round]);
+    setDeltaCharacters(newDeck);
+
+    if (deckReset) {
+      setDeckReset(false);
+    }
+  }, [difficulty, round, deckReset]);
 
   return (
     <>
@@ -86,7 +106,7 @@ function App() {
           </aside>
           <main>
             <Board
-              key={round}
+              key={getUniqueBoardKey(deltaCharacters)}
               characters={deltaCharacters}
               incrementScore={incrementScore}
               handleRoundVictory={handleRoundVictory}
@@ -98,7 +118,7 @@ function App() {
       {infoMode !== InfoMode.HIDDEN && (
         <Info
           mode={infoMode}
-          setMode={setInfoMode}
+          setResponded={setInfoResponded}
           round={round}
           score={score}
           highScore={highScore}
