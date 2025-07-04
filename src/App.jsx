@@ -4,9 +4,17 @@ import "./App.css";
 
 import Board from "./components/Board.jsx";
 import Status from "./components/Status.jsx";
-import { Difficulty, shuffleArray, getDifficultyCardCount } from "./utils.js";
+import Info from "./components/Info.jsx";
+import MainMenu from "./components/MainMenu.jsx";
 
 import characters from "./assets/characters.json";
+import {
+  Difficulty,
+  shuffleArray,
+  getDifficultyCardCount,
+  InfoMode,
+  AppState,
+} from "./utils.js";
 
 function App() {
   const [round, setRound] = useState(1);
@@ -18,6 +26,9 @@ function App() {
     shuffleArray(characters).slice(0, getDifficultyCardCount(difficulty)),
   );
 
+  const [appState, setAppState] = useState(AppState.MENU);
+  const [infoMode, setInfoMode] = useState(InfoMode.HIDDEN);
+
   const incrementScore = () => {
     const newScore = score + 1;
     setScore(newScore);
@@ -27,7 +38,7 @@ function App() {
 
   const handleRoundVictory = () => {
     setTimeout(() => {
-      alert(`You won this round. Onto round ${round + 1}!`);
+      setInfoMode(InfoMode.WON);
       setRound(round + 1);
     }, 1000);
   };
@@ -37,7 +48,7 @@ function App() {
       setHighScore(score);
     }
 
-    alert(`You lost! You got ${score} points`);
+    setInfoMode(InfoMode.LOST);
     setTimeout(() => {
       setRound(1);
       setScore(0);
@@ -48,7 +59,7 @@ function App() {
     setDeltaCharacters(
       shuffleArray(characters).slice(0, getDifficultyCardCount(difficulty)),
     );
-  }, [round]);
+  }, [difficulty, round]);
 
   return (
     <>
@@ -60,18 +71,40 @@ function App() {
         </div>
         <div className="band bottom"></div>
       </header>
-      <aside>
-        <Status score={score} round={round} difficulty={difficulty} />
-      </aside>
-      <main>
-        <Board
-          key={round}
-          characters={deltaCharacters}
-          incrementScore={incrementScore}
-          handleRoundVictory={handleRoundVictory}
-          handleGameOver={handleGameOver}
+      {appState === AppState.MENU && (
+        <MainMenu
+          highScore={highScore}
+          startGame={() => setAppState(AppState.GAME)}
+          difficulty={difficulty}
+          setDifficulty={setDifficulty}
         />
-      </main>
+      )}
+      {appState === AppState.GAME && (
+        <>
+          <aside>
+            <Status score={score} round={round} difficulty={difficulty} />
+          </aside>
+          <main>
+            <Board
+              key={round}
+              characters={deltaCharacters}
+              incrementScore={incrementScore}
+              handleRoundVictory={handleRoundVictory}
+              handleGameOver={handleGameOver}
+            />
+          </main>
+        </>
+      )}
+      {infoMode !== InfoMode.HIDDEN && (
+        <Info
+          mode={infoMode}
+          setMode={setInfoMode}
+          round={round}
+          score={score}
+          highScore={highScore}
+          setAppState={setAppState}
+        />
+      )}
     </>
   );
 }

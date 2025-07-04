@@ -4,6 +4,17 @@ export const Difficulty = Object.freeze({
   HARD: "Hard",
 });
 
+export const AppState = Object.freeze({
+  MENU: 0,
+  GAME: 1,
+});
+
+export const InfoMode = Object.freeze({
+  HIDDEN: 0,
+  WON: 1,
+  LOST: 2,
+});
+
 export function getDifficultyCardCount(difficulty) {
   switch (difficulty) {
     case Difficulty.EASY:

@@ -1,0 +1,87 @@
+.main-menu {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-family: "Lumos", serif;
+  font-size: 2rem;
+  line-height: 1;
+  text-align: center;
+  color: #ffd700;
+}
+
+.main-menu .instructions {
+  margin-top: 32px;
+}
+
+.main-menu .high-score {
+  margin-top: 16px;
+  font-size: 2rem;
+}
+
+.main-menu .action-container {
+  background-color: #b22222;
+  padding: 8px;
+  margin: 8px;
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  width: max-content;
+  height: min-content;
+}
+
+.main-menu label {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.main-menu label p {
+  margin-right: 8px;
+}
+
+.main-menu .action-container > * {
+  display: flex;
+  border: 2px solid #ffd700;
+}
+
+.main-menu select {
+  border: none;
+  appearance: none;
+  background: none;
+  color: #ffd700;
+  font-size: 1rem;
+  padding: 8px;
+}
+
+.main-menu select ~ img {
+  width: 20px;
+  height: auto;
+  filter: invert(88%) sepia(18%) saturate(6961%) hue-rotate(0deg)
+    brightness(105%) contrast(108%);
+}
+
+.main-menu .logo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.main-menu .logo img {
+  width: 256px;
+  height: auto;
+}
+
+.main-menu .play-action {
+  margin-bottom: 32px;
+}
+
+.main-menu button {
+  appearance: none;
+  background: none;
+  color: #ffd700;
+  padding: 16px 32px;
+}
