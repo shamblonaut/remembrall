@@ -1,19 +1,4 @@
-export const Difficulty = Object.freeze({
-  EASY: "Easy",
-  NORMAL: "Normal",
-  HARD: "Hard",
-});
-
-export const AppState = Object.freeze({
-  MENU: 0,
-  GAME: 1,
-});
-
-export const InfoMode = Object.freeze({
-  HIDDEN: 0,
-  WON: 1,
-  LOST: 2,
-});
+import { Difficulty } from "./constants.js";
 
 export async function fetchCharacterList() {
   const requestURL = "https://hp-api.onrender.com/api/characters";
@@ -28,6 +13,7 @@ export async function fetchCharacterList() {
       characters.push(...response);
     });
 
+  // Only include characters with image URLs provided
   return characters.filter((character) => character.image);
 }
 
@@ -42,6 +28,7 @@ export function getDifficultyCardCount(difficulty) {
   }
 }
 
+// To reset the board when a new deck is loaded
 export function getUniqueBoardKey(characters) {
   let key = "";
   for (const character of characters) {

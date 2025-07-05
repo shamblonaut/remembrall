@@ -2,60 +2,67 @@ import { useState, useEffect } from "react";
 
 import "./App.css";
 
+import { Difficulty, InfoMode, AppState } from "./utils/constants.js";
+import {
+  fetchCharacterList,
+  getUniqueBoardKey,
+  getDifficultyCardCount,
+  shuffleArray,
+} from "./utils/helpers.js";
+
 import Board from "./components/Board.jsx";
 import Status from "./components/Status.jsx";
 import Info from "./components/Info.jsx";
 import MainMenu from "./components/MainMenu.jsx";
 
-import {
-  Difficulty,
-  shuffleArray,
-  getDifficultyCardCount,
-  InfoMode,
-  AppState,
-  getUniqueBoardKey,
-  fetchCharacterList,
-} from "./utils.js";
-
 function App() {
+  /* ============ STATES ============ */
+  // Game data
   const [round, setRound] = useState(1);
   const [difficulty, setDifficulty] = useState(Difficulty.NORMAL);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
 
+  // Character set and subsets
   const [characters, setCharacters] = useState([]);
   const [deltaCharacters, setDeltaCharacters] = useState([]);
   const [deckReset, setDeckReset] = useState(false);
 
+  // Navigation states
   const [appState, setAppState] = useState(AppState.MENU);
   const [infoMode, setInfoMode] = useState(InfoMode.HIDDEN);
   const [infoResponded, setInfoResponded] = useState(false);
 
+  /* =========== HANDLERS =========== */
   const incrementScore = () => {
     const newScore = score + 1;
     setScore(newScore);
-
-    return newScore;
   };
 
   const handleRoundVictory = () => {
+    // Open info modal in WON mode
     setInfoMode(InfoMode.WON);
   };
 
   const handleGameOver = () => {
+    // New High Score
     if (highScore < score) {
       setHighScore(score);
     }
 
+    // Open info modal in LOST mode
     setInfoMode(InfoMode.LOST);
   };
 
+  /* =========== EFFECTS ============ */
+  // Fetch characters from API
   useEffect(() => {
     (async () => {
       setCharacters(await fetchCharacterList());
     })();
   }, []);
 
+  // Update game data after user responds to info modal
   useEffect(() => {
     if (!infoResponded) return;
 
@@ -74,6 +81,7 @@ function App() {
     setInfoMode(InfoMode.HIDDEN);
   }, [infoResponded, infoMode]);
 
+  // Get a new random character subset for a round
   useEffect(() => {
     const newDeck = shuffleArray(characters).slice(
       0,

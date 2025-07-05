@@ -1,13 +1,16 @@
+import { useMemo } from "react";
+
 import "../styles/Status.css";
 
-import { useMemo } from "react";
-import { getDifficultyCardCount } from "../utils";
+import { getDifficultyCardCount } from "../utils/helpers.js";
 
 export default function Status({ score, round, difficulty }) {
+  // Calculate the total cards for a given difficulty
   const totalCards = useMemo(
     () => getDifficultyCardCount(difficulty),
     [difficulty],
   );
+
   return (
     <div className="status">
       <div className="score">

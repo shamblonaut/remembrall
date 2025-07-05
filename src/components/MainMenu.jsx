@@ -1,8 +1,7 @@
 import "../styles/MainMenu.css";
-
 import DropdownIcon from "../assets/images/dropdown.svg";
 
-import { Difficulty } from "../utils";
+import { Difficulty } from "../utils/constants.js";
 
 export default function MainMenu({
   highScore,

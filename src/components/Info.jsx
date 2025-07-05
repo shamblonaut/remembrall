@@ -1,5 +1,6 @@
 import "../styles/Info.css";
-import { AppState, InfoMode } from "../utils";
+
+import { AppState, InfoMode } from "../utils/constants.js";
 
 export default function Info({
   mode,
