@@ -6,6 +6,9 @@ import { shuffleArray } from "../utils/helpers.js";
 
 import Card from "./Card.jsx";
 
+const flipSound = new Audio("/sounds/flip.mp3");
+const unflipSound = new Audio("/sounds/unflip.mp3");
+
 export default function Board({
   characters,
   incrementScore,
@@ -60,6 +63,19 @@ export default function Board({
   useEffect(() => {
     setFlipped(false);
   }, []);
+
+  useEffect(() => {
+    if (flipped) {
+      flipSound.play();
+    } else {
+      unflipSound.play();
+    }
+
+    return () => {
+      flipSound.currentTime = 0;
+      unflipSound.currentTime = 0;
+    };
+  }, [flipped]);
 
   return (
     <div className="cards">
